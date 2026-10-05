@@ -1,0 +1,27 @@
+# Lab 5A/5B evidence — least privilege and the governance boundary
+# UC function get_order_summary granted EXECUTE to a service principal;
+# the underlying tables were deliberately NOT granted.
+# Captured 2026-09-30T01:23:52Z
+
+$ python session-5-tools-and-governance/code/privilege_probe.py
+
+=== as you — workspace admin ===
+  identity: Bhavuk Chawla
+
+  ALLOWED  call the granted function                  (1 row(s))
+  ALLOWED  read the table the function reads          (2 row(s))
+  ALLOWED  read the customers table                   (2 row(s))
+  ALLOWED  call a function that was NOT granted       (2 row(s))
+
+=== as the agent's execution identity ===
+  identity: agents-labs-restricted
+
+  ALLOWED  call the granted function                  (1 row(s))
+  DENIED   read the table the function reads          [INSUFFICIENT_PERMISSIONS] Insufficient privileges:
+  DENIED   read the customers table                   [INSUFFICIENT_PERMISSIONS] Insufficient privileges:
+  DENIED   call a function that was NOT granted       [INSUFFICIENT_PERMISSIONS] Insufficient privileges:
+
+$ SHOW GRANTS ON FUNCTION agents_labs.retail.get_order_summary
+  [1/1] ok   SHOW GRANTS ON FUNCTION agents_labs.retail.get_order_summary  (2 rows)
+         a43d91d6-5848-46f7-99d6-70737fd76451 | EXECUTE | FUNCTION | agents_labs.retail.get_order_summary
+         82052317-4dfb-44dd-9719-2ef5368618bb | EXECUTE | FUNCTION | agents_labs.retail.get_order_summary

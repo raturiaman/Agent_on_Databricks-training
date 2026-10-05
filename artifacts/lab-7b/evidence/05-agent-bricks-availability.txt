@@ -1,0 +1,8 @@
+  Agent Bricks REST surface on this workspace:
+    /api/2.0/agent-bricks/knowledge-assistant/list       404
+    /api/2.0/knowledge-assistant/list                    404
+    /api/2.0/agent-bricks/supervisor/list                404
+    /api/2.0/agents/list                                 404
+
+  what Agent Bricks needs underneath — a serving endpoint:
+    NotFound: Model serving is not available for trial workspaces. Please contact your organization admin or Databricks support.

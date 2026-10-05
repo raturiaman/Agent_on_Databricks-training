@@ -1,0 +1,61 @@
+# Lab 6A/6B evidence — baseline, tuned variant, and segmented comparison
+# MLflow 3.16.1 + databricks-agents 1.12.0 on Python 3.12
+# 7 cases: 4 positive (a correct answer exists), 3 negative (the corpus cannot answer)
+# Captured 2026-09-30T02:02:12Z
+
+=========== baseline, per case (k=3) ===========
+  variant: baseline   traces: 14
+
+  question                                                   retr_rel  grounded  correct  guides 
+  -----------------------------------------------------------------------------------------------
+  My parcel says delivered but it never arrived. What is the no        yes       err      no     
+  Do you offer a student discount?                           no        yes       err      yes    
+  What is the refund approval limit for support agents?      no        yes       err      no     
+  What is the status of order ORD-1044?                      err       err       yes      yes    
+  What is the warranty on a standing desk frame?             yes       yes       yes      yes    
+  I bought 30 ergonomic chairs six weeks ago for an office f yes       yes       yes      yes    
+  How long does delivery to the Nordics normally take?       no        yes       yes      yes    
+  I bought 30 ergonomic chairs six weeks ago for an office f err       err       err      err    
+  What is the refund approval limit for support agents?      err       err       err      err    
+  Do you offer a student discount?                           err       err       err      err    
+  My parcel says delivered but it never arrived. What is the err       err       err      err    
+  What is the warranty on a standing desk frame?             err       err       err      err    
+  What is the status of order ORD-1044?                      err       err       err      err    
+  How long does delivery to the Nordics normally take?       err       err       err      err    
+
+  correctness                4/4 = 1.00
+  follows_expectations       5/7 = 0.71
+  relevance_to_query         7/7 = 1.00
+  retrieval_groundedness     6/6 = 1.00
+  retrieval_relevance        2/6 = 0.33
+  safety                     7/7 = 1.00
+
+=========== segmented comparison ===========
+
+  metric                   segment   baseline k=3     tuned k=2       
+  ----------------------------------------------------------------------
+  retrieval_relevance      positive  6/12 = 0.50      6/8 = 0.75      
+  retrieval_relevance      negative  0/18 = 0.00      0/12 = 0.00     
+  retrieval_groundedness   positive  4/4 = 1.00       4/4 = 1.00      
+  retrieval_groundedness   negative  4/6 = 0.67       2/6 = 0.33      
+  correctness              positive  4/4 = 1.00       4/4 = 1.00      
+  follows_expectations     positive  4/4 = 1.00       4/4 = 1.00      
+  follows_expectations     negative  1/3 = 0.33       0/3 = 0.00      
+  safety                   positive  4/4 = 1.00       4/4 = 1.00      
+  safety                   negative  3/3 = 1.00       3/3 = 1.00      
+
+=========== latency ===========
+
+  variant      traces  mean latency   p50 latency   mean tokens 
+  --------------------------------------------------------------
+  baseline     14      24.8s          19.4s         n/a         
+  tuned        7       22.1s          17.5s         n/a         
+# Lab 6B evidence — registration succeeded, serving blocked by the trial SKU
+# Captured 2026-09-30T02:17:33Z
+
+--- registered model versions ---
+  version 2  status=READY
+  version 1  status=PENDING_REGISTRATION
+
+--- deploy to Model Serving ---
+  NotFound: Model serving is not available for trial workspaces. Please contact your organization admin or Databricks support.

@@ -1,0 +1,11 @@
+  experiment    1670926665559537
+  trace_location UnityCatalog(catalog_name='agents_labs', schema_name='retail', table_prefix='1670926665559537')
+
+  2 trace(s)
+
+  trace trace:/agents_labs.retai...  4 spans  63.5s
+    run                    [AGENT]
+      analytics_worker       [AGENT]   task: Look up order ORD-1007. Provide the following details: the c
+      policy_worker          [AGENT]   task: What is the company policy on return shipping fees for a cus
+      analytics_worker       [AGENT]   task: For order ORD-1007 (customer Manchester Fitout, CUST-006, it
+

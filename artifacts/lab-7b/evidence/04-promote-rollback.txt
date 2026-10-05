@@ -1,0 +1,29 @@
+### rollout.py status
+  agents_labs.retail.support_agent
+    @champion    -> v2
+    @challenger  -> v3
+    @previous    -> (unset)
+
+    caller URI (never changes): models:/agents_labs.retail.support_agent@champion
+
+### rollout.py promote
+  recorded @previous  -> v2
+  promoted @champion  -> v3
+
+  agents_labs.retail.support_agent
+    @champion    -> v3
+    @challenger  -> v3
+    @previous    -> v2
+
+    caller URI (never changes): models:/agents_labs.retail.support_agent@champion
+
+### rollout.py rollback
+  rolled back @champion  v3 -> v2
+
+  agents_labs.retail.support_agent
+    @champion    -> v2
+    @challenger  -> v3
+    @previous    -> v2
+
+    caller URI (never changes): models:/agents_labs.retail.support_agent@champion
+

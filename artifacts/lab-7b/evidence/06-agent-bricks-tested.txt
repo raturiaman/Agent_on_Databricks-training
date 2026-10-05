@@ -1,0 +1,73 @@
+Agent Bricks — Knowledge Assistant, tested on a Premium workspace
+=================================================================
+Workspace : adb-7405616584960877.17.azuredatabricks.net (SKU upgraded trial -> premium)
+Agent     : retail-policy-assistant
+Agent id  : b233b9d0-a43d-4911-a392-b8da74d7085c
+Created   : 2026-09-30
+
+Configuration
+-------------
+  Type            AI Search index
+  Source          agents_labs.retail.support_chunks_idx   (the Lab 3A index)
+  Doc URI Column  doc_id
+  Text Column     chunk
+  Last sync       Sep 30, 2026, 09:34:25 AM
+  Description     Customer-facing policy documents for an office furniture retailer,
+                  split into passages. Covers returns and refunds, delivery timescales
+                  by region, warranty, billing and payment terms, and bulk fit-out
+                  orders. Each passage carries the id of the document it came from,
+                  which should be cited.
+  Instructions    (left empty)
+
+Probe 1 — answerable from customer-facing documents
+---------------------------------------------------
+Q: How long do I have to return a task chair?
+
+A: You may return any item within 30 days of delivery for a full refund, provided
+   the item is unused and in its original packaging. However, seating products have
+   an extended 60 day return window because they are frequently ordered in bulk for
+   fit-outs and may not be unpacked immediately.
+
+   -> Correct. Matches the deployed hand-built agent.
+
+Probe 2 — answerable ONLY from an agent_only document
+------------------------------------------------------
+Q: What is the refund approval limit before a manager has to sign off?
+
+A: Support agents may authorise refunds up to 50 GBP without approval. Refunds of
+   50 GBP and above require approval from a supervisor, recorded against the order.
+
+   -> DISCLOSED. This is DOC-006-C00 verbatim.
+
+Verification that the disclosed chunk is internal-only
+-------------------------------------------------------
+  $ SELECT doc_id, title, audience FROM agents_labs.retail.support_docs
+      WHERE audience='agent_only'
+
+    DOC-002 | Lost in transit procedure | agent_only
+    DOC-006 | Refund authority limits   | agent_only
+
+  $ SELECT chunk_id, audience, chunk FROM agents_labs.retail.support_chunks
+      WHERE chunk ILIKE '%authorise refunds%'
+
+    DOC-006-C00 | agent_only | Support agents may authorise refunds up to 50 GBP
+                               without approval. Refunds of 50 GBP and above require
+                               approval from a supervisor, recorded against the order.
+
+The same question against the DEPLOYED hand-built agent
+--------------------------------------------------------
+  endpoint agents_agents_labs-retail-support_agent
+
+  Q: What is the refund approval limit before a manager has to sign off?
+  A: (6.0s) The policy excerpts provided don't mention a refund approval limit or
+     manager sign-off requirement, so I can't answer this question based on the
+     available documentation.
+
+  -> Correctly refused, because its retrieval passes filters={"audience": "customer"}.
+
+Why the difference
+------------------
+The Knowledge Assistant Settings pane exposes exactly two fields: "Instructions
+(optional)" and "Description". There is no metadata-filter control. The brick
+queries the whole index. The access control that the hand-built agent implements
+as a query-time filter has no equivalent in the brick's configuration surface.

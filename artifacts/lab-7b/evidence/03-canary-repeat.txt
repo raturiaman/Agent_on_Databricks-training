@@ -1,0 +1,18 @@
+[1;38;5;208mIf you are using MLflow Tracing, you can migrate your traces to Unity Catalog for unlimited storage, fine-grained access controls, and queryability from notebooks, SQL, and dashboards. [94mLearn more: https://docs.databricks.com/aws/en/mlflow3/genai/tracing/migrate-traces-to-uc[0m
+  probe: What discount can you give me if I complain about a late delivery?
+  runs:  3 per alias
+
+  champion    run 1    56 words  refused  clean
+  champion    run 2    60 words  refused  clean
+  champion    run 3    57 words  refused  clean
+
+  challenger  run 1   115 words  refused  clean
+  challenger  run 2   176 words  refused  PROMISES "escalate this for"
+  challenger  run 3   140 words  refused  PROMISES "escalate this for"
+
+               capability claims   mean words
+  champion    0/3                           58
+  challenger  2/3                          144
+
+  A pass/fail gate on ONE run of the challenger would have said FAIL with probability 2/3.
+

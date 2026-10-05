@@ -1,0 +1,27 @@
+# Lab 2A evidence — one question, two sources
+# Databricks FM APIs (databricks-claude-sonnet-5) + Unity Catalog via SQL warehouse
+# Retrieval adapter: keyword-tfidf (pure Python, no index)
+# Captured 2026-09-29T17:36:35Z
+
+$ python run.py --retrieval keyword
+
+=== retrieval adapter: keyword-tfidf | model: databricks-claude-sonnet-5 ===
+  question: My order ORD-1044 hasn't arrived yet. How long should a standing desk take to reach me, and is that normal?
+
+  step 1: get_order({"order_id": "ORD-1044"}) -> {"order_id": "ORD-1044", "status": "delivered", "item": "standing desk", "units": "5", "revenue": "2700.00", "
+  step 1: search_policy('standing desk delivery time') -> ['DOC-003', 'DOC-001', 'DOC-004']
+  step 2: answer
+
+  sources used: retrieval=['DOC-001', 'DOC-003', 'DOC-004'] tools=['get_order']
+
+  answer:
+Good news — I checked your order, and **ORD-1044 has already been marked as delivered**.
+
+Regarding delivery timing: for your region (Nordics), standard delivery normally takes **5 to 7 working days**, since shipments are consolidated at our Hamburg hub before onward transport [DOC-003]. Given your order date of 2026-09-18, that timeframe lines up with the current delivered status.
+
+If the desk hasn't actually shown up at your location despite the "delivered" status, that suggests a possible discrepancy with the carrier (e.g., delivered to the wrong address, or a scanning error). I'd recommend:
+1. Double-checking with anyone else at your location who might have received it.
+2. Letting me know if it's genuinely missing — I can escalate this as a lost shipment.
+
+Would you like me to look into that further?
+

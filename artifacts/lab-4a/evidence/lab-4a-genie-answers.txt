@@ -1,0 +1,65 @@
+# Lab 4A/4B evidence — Genie space, and an agent calling it as a tool
+# Space: Retail Customer Orders (01f1bc6b0a4f1c6d8269cc9c1ec2af08)
+# Tables: agents_labs.retail.orders, agents_labs.retail.customers
+# Captured 2026-09-30T01:15:41Z
+
+=========== 4A: which region dropped? ===========
+
+  question: Which region had the biggest drop in revenue from August to September 2026?
+  status  : MessageStatus.COMPLETED
+
+  SQL Genie generated:
+    WITH region_revenue AS (
+      SELECT
+        customers.region,
+        SUM(CASE WHEN orders.order_date >= DATE'2026-08-01' AND orders.order_date < DATE'2026-09-01' THEN orders.revenue ELSE 0 END) AS august_revenue,
+        SUM(CASE WHEN orders.order_date >= DATE'2026-09-01' AND orders.order_date < DATE'2026-10-01' THEN orders.revenue ELSE 0 END) AS september_revenue
+      FROM agents_labs.retail.orders
+      INNER JOIN agents_labs.retail.customers
+        ON orders.customer_id = customers.customer_id
+      WHERE orders.order_date >= DATE'2026-08-01' AND orders.order_date < DATE'2026-10-01'
+        AND customers.region IS NOT NULL
+      GROUP BY customers.region
+    ), ranked AS (
+      SELECT
+        region,
+        august_revenue,
+        september_revenue,
+        (august_revenue - september_revenue) AS revenue_drop,
+        RANK() OVER (ORDER BY (august_revenue - september_revenue) DESC) AS drop_rank
+      FROM region_revenue
+    )
+    SELECT region, august_revenue, september_revenue, revenue_drop
+    FROM ranked
+    WHERE drop_rank = 1
+
+  rows:
+    {"region": "Nordics", "august_revenue": "22020.00", "september_revenue": "4678.00", "revenue_drop": "17342.00"}
+
+  answer:
+The **Nordics** region had the biggest revenue drop from August to September 2026: **August revenue = 22020.00**, **September revenue = 4678.00**, for a **drop of 17342.00**. Based on the result shown, **Nordics** ranked highest for month-over-month revenue decline in this period.
+
+
+=========== 4A: drill down ===========
+      AND `o`.`order_date` < DATE '2026-10-01'
+      AND `c`.`name` IS NOT NULL
+      AND `o`.`product_line` IS NOT NULL
+    GROUP BY `c`.`name`, `o`.`product_line`
+    ORDER BY `c`.`name`, `o`.`product_line`
+
+  rows:
+    {"customer_name": "Fjord Interiors", "product_line": "Lighting", "august_revenue": "2280.00", "september_revenue": "1800.00", "absolute_change": "-480.00", "pct_change": "-0.210526315789474"}
+    {"customer_name": "Fjord Interiors", "product_line": "Seating", "august_revenue": "0.00", "september_revenue": "140.00", "absolute_change": "140.00", "pct_change": null}
+    {"customer_name": "Helsinki Works", "product_line": "Desks", "august_revenue": "3240.00", "september_revenue": "2700.00", "absolute_change": "-540.00", "pct_change": "-0.166666666666667"}
+    {"customer_name": "Helsinki Works", "product_line": "Lighting", "august_revenue": "0.00", "september_revenue": "38.00", "absolute_change": "38.00", "pct_change": null}
+    {"customer_name": "Nordic Office Group", "product_line": "Seating", "august_revenue": "16500.00", "september_revenue": "0.00", "absolute_change": "-16500.00", "pct_change": "-1.000000000000000"}
+
+  answer:
+For the **Nordics**, the September 2026 vs. August breakdown by customer and product line shows **5 customer-product line combinations**. Examples include:
+- **Fjord Interiors – Lighting:** September **1,800.00** vs. August **2,280.00** (**-480.00**, **-21.1%**)
+- **Fjord Interiors – Seating:** September **140.00** vs. August **0.00** (**+140.00**)
+- **Helsinki Works – Desks:** September **2,700.00** vs. August **3,240.00** (**-540.00**, **-16.7%**)
+- **Helsinki Works – Lighting:** September **38.00** vs. August **0.00** (**+38.00**)
+- **Nordic Office Group – Seating:** September **0.00** vs. August **16,500.00** (**-16,500.00**, **-100%**)
+The biggest month-over-month drop was **Nordic Office Group – Seating**, which fell from **16,500.00** in August to **0.00** in September.
+

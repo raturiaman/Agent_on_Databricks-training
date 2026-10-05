@@ -1,0 +1,26 @@
+# Lab 3B evidence — traced RAG agent with Unity Catalog trace storage
+# MLflow 3.16.1, traces in agents_labs.retail, endpoint databricks-claude-sonnet-5
+# Captured 2026-09-30T01:01:10Z
+
+$ python session-3-grounding-and-rag/code/inspect_trace.py
+  experiment    : /Users/admin@datacouchoutlook.onmicrosoft.com/agents-labs-3b
+  trace_location: UnityCatalog(catalog_name='agents_labs', schema_name='retail', table_prefix='2155530130638727')
+  traces found  : 1
+
+  trace trace:/agents_labs.retail.2155530130638727/3315a2843e94b520d05ef59c2cf82e2b has 3 spans:
+    - answer                 AGENT         17761.1 ms
+    - get_order              TOOL           1159.7 ms
+    - search_policy          RETRIEVER      3135.4 ms
+
+  retrieval spans — the chunks behind the answer:
+    query: {"audience":"customer","k":3,"query":"delivery time and late delivery options"}
+      DOC-003-C01  DOC-003  score=0.5984  Delivery timescales by region
+      DOC-003-C00  DOC-003  score=0.5677  Delivery timescales by region
+      DOC-005-C00  DOC-005  score=0.5521  Billing, invoices and payment terms
+
+$ SHOW TABLES IN agents_labs.retail LIKE '*otel*'
+  [1/1] ok   SHOW TABLES IN agents_labs.retail LIKE '*otel*'  (4 rows)
+         retail | 2155530130638727_otel_annotations | false
+         retail | 2155530130638727_otel_logs | false
+         retail | 2155530130638727_otel_metrics | false
+         retail | 2155530130638727_otel_spans | false

@@ -1,0 +1,46 @@
+# Lab 3A evidence — Vector Search index build and retrieval checks
+# Azure Databricks eastus, endpoint agents-labs-vs (STANDARD)
+# Delta Sync index, managed embeddings via databricks-gte-large-en
+# Captured 2026-09-29T19:06:48Z
+
+$ python tools/run_sql.py tools/setup/04_chunk_docs.sql
+  [1/5] ok   CREATE OR REPLACE TABLE agents_labs.retail.support_chunks AS WITH senten
+  [2/5] ok   ALTER TABLE agents_labs.retail.support_chunks SET TBLPROPERTIES (delta.e
+  [3/5] ok   ALTER TABLE agents_labs.retail.support_chunks ALTER COLUMN chunk_id SET 
+  [4/5] ok   ALTER TABLE agents_labs.retail.support_chunks ADD CONSTRAINT support_chu
+  [5/5] ok   SELECT doc_id, count(*) AS chunks, round(avg(length(chunk))) AS avg_char  (7 rows)
+         DOC-001 | 2 | 373.0
+         DOC-002 | 2 | 332.0
+         DOC-003 | 2 | 244.0
+         DOC-004 | 3 | 186.0
+         DOC-005 | 2 | 245.0
+         DOC-006 | 2 | 273.0
+         DOC-007 | 2 | 223.0
+
+$ python session-3-grounding-and-rag/code/probe_index.py
+
+  q: How long does delivery to the Nordics take?
+     filter={'audience': 'customer'}  expect top-1=DOC-003  PASS
+       DOC-003-C00  DOC-003  customer   score=0.7114  Delivery timescales by region
+       DOC-003-C01  DOC-003  customer   score=0.5564  Delivery timescales by region
+       DOC-005-C00  DOC-005  customer   score=0.5522  Billing, invoices and payment terms
+
+  q: Can I send it back after six weeks?
+     filter={'audience': 'customer'}  expect top-1=DOC-001  PASS
+       DOC-001-C00  DOC-001  customer   score=0.5520  Returns and refunds policy
+       DOC-007-C01  DOC-007  customer   score=0.5236  Bulk and fit-out orders
+       DOC-001-C01  DOC-001  customer   score=0.5231  Returns and refunds policy
+
+  q: How much can I refund without asking anyone?
+     filter={'audience': 'agent_only'}  expect top-1=DOC-006  PASS
+       DOC-006-C00  DOC-006  agent_only score=0.5974  Refund authority limits
+       DOC-006-C01  DOC-006  agent_only score=0.5647  Refund authority limits
+       DOC-002-C01  DOC-002  agent_only score=0.5186  Lost in transit procedure
+
+  q: What is covered if the chair frame breaks?
+     filter={'audience': 'customer'}  expect top-1=DOC-004  PASS
+       DOC-004-C00  DOC-004  customer   score=0.6470  Warranty coverage
+       DOC-004-C02  DOC-004  customer   score=0.5162  Warranty coverage
+       DOC-004-C01  DOC-004  customer   score=0.5087  Warranty coverage
+
+  4/4 retrieval checks passed

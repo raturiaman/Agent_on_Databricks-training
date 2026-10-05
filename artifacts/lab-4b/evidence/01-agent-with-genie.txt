@@ -1,0 +1,43 @@
+
+  user: Our Nordics numbers look bad this month. What happened, and is there any policy reason a big seating customer might have stopped ordering?
+
+  step 1: ask_genie('What is the total revenue for the Nordics region for the current month compared to the previous month?')
+           -> genie returned 2 row(s) and its SQL
+  step 1: ask_genie('Who are the top customers by revenue in the Nordics region for the seating product category over the last 6 months?')
+           -> genie returned 2 row(s) and its SQL
+  step 1: search_policy('credit hold policy for large customers')
+  step 1: search_policy('order cancellation or account suspension policy')
+  step 2: ask_genie("Show the monthly order count and revenue for customer 'Nordic Office Group' (CUST-001) over the last 6 months.")
+           -> genie returned 1 row(s) and its SQL
+  step 2: ask_genie('List all orders, statuses, and any returns or cancellations for customer CUST-001 in the last 3 months.')
+           -> genie returned 2 row(s) and its SQL
+  step 3: ask_genie('What were the product line, unit quantity, and revenue for orders ORD-1001 and ORD-1002?')
+           -> genie returned 2 row(s) and its SQL
+  step 4: answer
+
+  answer:
+## What's driving the Nordics drop
+
+Nordics revenue fell from **$22,020 in August 2026 to $4,678 in September 2026** — a **78.8% decline** (asked Genie: *"total revenue for Nordics region for current vs previous month"*).
+
+The gap is almost entirely explained by one customer: **Nordic Office Group (CUST-001)**, the region's top seating buyer, who generated **$16,500** in August alone (75% of that month's Nordics revenue) via two large orders:
+
+| Order | Date | Units | Revenue | Status |
+|---|---|---|---|---|
+| ORD-1001 | Aug 4 | 40 | $8,800 | Delivered |
+| ORD-1002 | Aug 19 | 35 | $7,700 | Delivered |
+
+Both orders were delivered successfully with **no returns or cancellations** on record for this customer in the last 3 months (asked Genie: *"orders, statuses, returns/cancellations for CUST-001 last 3 months"*). So this isn't a service failure or lost customer — they simply haven't placed a new order in September yet after two big deliveries in August.
+
+## Is there a policy reason they'd have stopped ordering?
+
+At 35–40 units each, both orders qualify as **fit-out orders** (20+ units of a single seating product) per policy DOC-007. Two relevant clauses could plausibly explain a pause rather than churn:
+
+- **Staged delivery allowance**: Fit-out orders can be delivered in staged batches at the customer's request, within 8 weeks of the original order — so Nordic Office Group may simply be in a fulfillment/installation cycle rather than sourcing from elsewhere.
+- **Extended 60-day return window** on fit-out orders means they have until roughly mid-October to review/return, which could naturally delay a reorder decision until that window closes.
+- **No cancellation charge was triggered** — the 15% restocking fee for cancelling a fit-out order after production begins doesn't apply here since nothing was cancelled.
+
+There's no policy (billing, returns, or credit hold) in the documents indicating friction that would have driven this customer away — payment terms (DOC-005) only affect Premier-tier invoicing/credit checks, and there's no sign of a credit hold or dispute in the order data.
+
+**Bottom line:** This looks like a normal post-fit-out lull for a bulk buyer rather than a lost account. I'd recommend a quick check-in with Nordic Office Group to confirm their next reorder timing — if they've gone quiet beyond the typical cycle after a 40+60-unit fit-out, that's the point to flag as a genuine risk.
+

@@ -1,0 +1,11 @@
+[1;38;5;208mIf you are using MLflow Tracing, consider storing your traces in Unity Catalog for unlimited storage (no 100,000 trace limit), fine-grained access controls, and queryability from notebooks, SQL, and dashboards. [94mLearn more: https://docs.databricks.com/aws/en/mlflow3/genai/tracing/trace-unity-catalog[0m
+Registered model 'agents_labs.retail.support_agent' already exists. Creating a new version of this model...
+Uploading artifacts:   0%|          | 0/8 [00:00<?, ?it/s]Uploading artifacts:  12%|█▎        | 1/8 [00:02<00:19,  2.74s/it]Uploading artifacts:  12%|█▎        | 1/8 [00:02<00:19,  2.74s/it]Uploading artifacts:  25%|██▌       | 2/8 [00:02<00:16,  2.74s/it]Uploading artifacts:  38%|███▊      | 3/8 [00:02<00:13,  2.74s/it]Uploading artifacts:  50%|█████     | 4/8 [00:02<00:10,  2.74s/it]Uploading artifacts:  62%|██████▎   | 5/8 [00:02<00:08,  2.74s/it]Uploading artifacts:  75%|███████▌  | 6/8 [00:02<00:05,  2.74s/it]Uploading artifacts:  88%|████████▊ | 7/8 [00:02<00:02,  2.74s/it]Uploading artifacts: 100%|██████████| 8/8 [00:02<00:00,  3.78it/s]Uploading artifacts: 100%|██████████| 8/8 [00:02<00:00,  3.78it/s]Uploading artifacts: 100%|██████████| 8/8 [00:02<00:00,  2.80it/s]
+Created version '3' of model 'agents_labs.retail.support_agent'.
+🏃 View run candidate-loosened-prompt at: https://adb-7405616584960877.17.azuredatabricks.net/ml/experiments/1670926665559538/runs/bc2390fbb51b401da0102f1240be4f40
+🧪 View experiment at: https://adb-7405616584960877.17.azuredatabricks.net/ml/experiments/1670926665559538
+  registered agents_labs.retail.support_agent version 3
+  READY versions: [3, 2]   incumbent: v2   candidate: v3
+  @champion   -> v2
+  @challenger -> v3
+  callers load 'models:/agents_labs.retail.support_agent@champion' and never a version number

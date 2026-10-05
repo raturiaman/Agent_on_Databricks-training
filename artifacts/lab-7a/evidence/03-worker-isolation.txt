@@ -1,0 +1,33 @@
+
+==========================================================================
+  CONTEXT-DEPENDENT
+  task: Would that customer pay a return shipping fee?
+--------------------------------------------------------------------------
+  Based on the excerpts, whether a return shipping fee applies depends
+  on the customer's tier:  - **Premier tier customers**: No fee — return
+  shipping is free (DOC-001). - **Standard and plus tier customers**:
+  Yes, a flat **12 GBP collection fee** applies, which is deducted from
+  the refund (DOC-001).  **Exception**: If the item arrived damaged, the
+  excerpts don't explicitly state whether the shipping fee is waived —
+  DOC-001 only specifies that the 30-day return window doesn't apply in
+  that case, not the fee itself. So this detail is not covered in the
+  excerpts.  If you can specify the customer's tier (standard, plus, or
+  premier), I can give a definitive answer.
+
+  cited: ['DOC-001', 'DOC-005', 'DOC-001']
+
+==========================================================================
+  STANDALONE
+  task: A 'plus' tier customer is returning 25 units of a single seating product. Would they pay a return shipping fee?
+--------------------------------------------------------------------------
+  No — they would not pay a return shipping fee.  Although DOC-001
+  states that plus tier customers are normally charged a flat 12 GBP
+  collection fee for returns, DOC-007 specifies that orders of 20 units
+  or more of a single seating product qualify as a "fit-out order," and
+  fit-out orders receive **free collection regardless of customer
+  tier**. Since this customer is returning 25 units of a single seating
+  product, the order qualifies as a fit-out order, and the free
+  collection provision overrides the standard tier-based fee.
+
+  cited: ['DOC-001', 'DOC-007', 'DOC-005']
+

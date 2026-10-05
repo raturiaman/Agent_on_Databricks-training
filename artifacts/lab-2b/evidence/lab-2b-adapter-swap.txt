@@ -1,0 +1,42 @@
+# Lab 2B evidence — swapping the retrieval adapter
+# Only the adapter changes. core.py, the tools and the model are untouched.
+# Captured 2026-09-29T17:36:52Z
+
+=============== same question, adapter B ===============
+$ python run.py --retrieval embeddings
+
+=== retrieval adapter: databricks-embeddings | model: databricks-claude-sonnet-5 ===
+  question: My order ORD-1044 hasn't arrived yet. How long should a standing desk take to reach me, and is that normal?
+
+  step 1: get_order({"order_id": "ORD-1044"}) -> {"order_id": "ORD-1044", "status": "delivered", "item": "standing desk", "units": "5", "revenue": "2700.00", "
+  step 1: search_policy('standing desk delivery time') -> ['DOC-003', 'DOC-004', 'DOC-007']
+  step 2: answer
+
+  sources used: retrieval=['DOC-003', 'DOC-004', 'DOC-007'] tools=['get_order']
+
+  answer:
+Good news — I checked the details, and your order ORD-1044 (5 standing desks for Helsinki Works) actually shows as **already delivered** in our system.
+
+For reference, standard delivery to the **Nordics region** takes **5 to 7 working days**, since shipments are consolidated at our Hamburg hub before onward transport [DOC-003]. Your order was placed on 2026-09-18, so delivery within that window would be expected timing.
+
+If the desks haven't physically arrived at your location despite the system showing "delivered," this could mean:
+- They were delivered to a reception/loading dock rather than directly to you
+- There's a discrepancy between the carrier's status update and actual arrival
+
+Could you confirm whether the desks are truly missing, or perhaps delivered to an alternate location (e.g., building reception)? If they're genuinely missing, I can help escalate this as a delivery investigation.
+
+
+=============== ranked results, side by side ===============
+$ python compare_retrievers.py
+
+query: 'standing desk delivery time'   (audience=customer)
+  keyword-tfidf            DOC-003(0.482), DOC-001(0.143), DOC-004(0.000)
+  databricks-embeddings    DOC-003(0.628), DOC-004(0.580), DOC-007(0.573)
+
+query: 'can I send it back after six weeks'   (audience=customer)
+  keyword-tfidf            DOC-005(0.194), DOC-007(0.164), DOC-003(0.040)
+  databricks-embeddings    DOC-001(0.600), DOC-007(0.543), DOC-003(0.452)
+
+query: 'how much can I refund without asking anyone'   (audience=agent_only)
+  keyword-tfidf            DOC-002(0.219), DOC-006(0.208)
+  databricks-embeddings    DOC-006(0.668), DOC-002(0.491)

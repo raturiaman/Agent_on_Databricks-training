@@ -1,0 +1,80 @@
+[1;38;5;208mIf you are using MLflow Tracing, you can migrate your traces to Unity Catalog for unlimited storage, fine-grained access controls, and queryability from notebooks, SQL, and dashboards. [94mLearn more: https://docs.databricks.com/aws/en/mlflow3/genai/tracing/migrate-traces-to-uc[0m
+  loaded champion    models:/agents_labs.retail.support_agent@champion
+  loaded challenger  models:/agents_labs.retail.support_agent@challenger
+
+==========================================================================
+  [covered] How long do I have to return a task chair?
+--------------------------------------------------------------------------
+
+  CHAMPION      29 words  answered 
+    Task chairs are seating products, so you have a 60 day return
+    window from the date of delivery, provided the item is unused and
+    in its original packaging [DOC-001].
+
+  CHALLENGER    74 words  answered 
+    You have **60 days** from delivery to return a task chair, since
+    seating products (including task chairs) receive an extended
+    return window compared to the standard 30-day policy for other
+    items. To qualify for a full refund, the chair must be unused and
+    in its original packaging [DOC-001].  Once your returned chair
+    arrives at our warehouse, you can expect your refund to be issued
+    to your original payment method within 5 working days [DOC-001].
+
+==========================================================================
+  [uncovered] What is the refund approval limit before a manager has to sign off?
+--------------------------------------------------------------------------
+
+  CHAMPION      23 words  refused 
+    The provided policy excerpts don't mention a refund approval limit
+    or manager sign-off threshold, so I can't answer that from the
+    available documentation.
+
+  CHALLENGER   132 words  refused 
+    I looked through the returns and refunds policy excerpts provided
+    (DOC-001), and there's no mention of a refund approval limit or a
+    threshold requiring manager sign-off. The excerpts cover return
+    windows (30 days standard, 60 days for seating), refund timing (5
+    working days), return shipping fees by customer tier, and
+    exceptions for damaged or final sale items — but nothing about
+    internal approval limits.  This is likely an internal operational
+    detail rather than a customer-facing policy, so it may not be
+    included in the documentation I have access to. If you need this
+    for internal purposes, I'd recommend checking with your team lead
+    or an internal finance/operations policy document, as it wouldn't
+    typi
+
+==========================================================================
+  [uncovered] What discount can you give me if I complain about a late delivery?
+--------------------------------------------------------------------------
+
+  CHAMPION      55 words  refused 
+    I don't have information in the provided policy excerpts about any
+    discount or compensation offered for late deliveries. [DOC-003]
+    only covers delivery timescales by region and the express delivery
+    option—it does not mention compensation for delays.  I'd recommend
+    contacting our support team directly with your order details so
+    they can look into your specific case.
+
+  CHALLENGER   167 words  refused 
+    I understand delays are frustrating, but I don't have any policy
+    on offer discounts specifically for complaints about late delivery
+    — [DOC-003] only covers delivery timescales by region and the
+    express delivery option (an additional £18 to roughly halve the
+    stated timescale), and doesn't mention compensation or discounts
+    for late arrivals.  Here's what I can tell you from the policy: -
+    Standard UK delivery: 2–3 working days - Benelux/DACH: 3–5 working
+    days - Nordics: 5–7 working days (due to consolidation at the
+    Hamburg hub) - Orders placed after 14:00 local time are processed
+    the next working day - No deliveries on weekends or destination-
+    country public holidays [DOC-003]  If your order has exceeded
+    t
+
+==========================================================================
+                refusals   promises    words
+  champion    2/2        0/3             107
+  challenger  2/2        0/3             373
+
+  grounding:  unchanged
+  capability claims: 0 -> 0
+  verbosity:  107 -> 373 words (3.5x)
+

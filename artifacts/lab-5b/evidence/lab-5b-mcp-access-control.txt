@@ -1,0 +1,17 @@
+# Lab 5B evidence — MCP discovery and invocation, filtered by UC grants
+# Managed MCP server: /api/2.0/mcp/functions/agents_labs/retail
+# Captured 2026-09-30T01:26:35Z
+
+
+=== as you — workspace admin ===
+  tools discovered: 2
+    - agents_labs__retail__get_order_summary
+    - agents_labs__retail__revenue_by_region
+  CALL get_order_summary    -> OK      {"is_truncated":false,"columns":["order_id","status","item","units","revenue","order_date","region",
+  CALL revenue_by_region    -> OK      {"is_truncated":false,"columns":["region","month","revenue","orders"],"rows":[["Benelux","2026-09",2
+
+=== as the agent's execution identity ===
+  tools discovered: 1
+    - agents_labs__retail__get_order_summary
+  CALL get_order_summary    -> OK      {"is_truncated":false,"columns":["order_id","status","item","units","revenue","order_date","region",
+  CALL revenue_by_region    -> ERROR   {'code': -32602, 'message': "BAD_REQUEST: Function 'agents_labs.retail.revenue_by_region' not found"}

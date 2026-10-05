@@ -1,0 +1,15 @@
+  endpoint  agents_agents_labs-retail-support_agent
+  host      https://adb-7405616584960877.17.azuredatabricks.net
+
+==========================================================================
+  Q: How long do I have to return a task chair?
+--------------------------------------------------------------------------
+  (6.8s)
+  Task chairs are seating products, so you have **60 days** from delivery to return them for a full refund, provided the chair is unused and in its original packaging [DOC-001].
+
+==========================================================================
+  Q: What is the refund approval limit before a manager has to sign off?
+--------------------------------------------------------------------------
+  (6.0s)
+  The policy excerpts provided don't mention a refund approval limit or manager sign-off requirement, so I can't answer this question based on the available documentation.
+

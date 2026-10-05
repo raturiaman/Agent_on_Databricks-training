@@ -1,0 +1,63 @@
+# Capstone grader vs a deliberately weak submission
+# no tools, no retrieval, no code-enforced threshold
+
+[43mNote: you may need to restart the kernel using %restart_python or dbutils.library.restartPython() to use updated packages.[0m
+  adjudicate() is defined (naive)
+
+  adjudicate() loaded
+  experiment : /Users/admin@datacouchoutlook.onmicrosoft.com/agents-labs-capstone
+
+
+  [FAIL] ORD-1007  expected=approve  got=escalate  cites=[]  8s
+         Item condition (unused, boxed) supports eligibility, but order date
+         and return window need verification against policy before approval.
+
+  [FAIL] ORD-1044  expected=approve  got=escalate  cites=[]  3s
+         Insufficient information to make a policy-based decision: need to
+         confirm the retailer's return window (e.g., 14/30 days) and verify
+         the delivery date against 'last week' to determine eligibility, as
+         well as check for any restocking fees or non-returnable categories
+         that may apply to desks. Escalating to review order details and
+         applicable retu
+
+  [PASS] ORD-1001  expected=escalate  got=escalate  cites=[]  3s
+         No policy details, order information, or reason for return were
+         provided for ORD-1001, so this request requires manual review
+         before a decision can be made.
+
+  [PASS] ORD-1002  expected=escalate  got=escalate  cites=[]  4s
+         Insufficient information to adjudicate this return. No details were
+         provided regarding the order contents, purchase date, return
+         reason, item condition, or applicable return policy terms for
+         ORD-1002. Please supply order details and policy documentation, or
+         route to a human agent with system access to the order record.
+
+  [FAIL] (no order)  expected=refuse  got=escalate  cites=[]  3s
+         This request asks for internal policy information (the refund
+         approval limit requiring manager sign-off) rather than presenting
+         an actual product return case for adjudication. I don't have a
+         specific policy document or citation confirming this threshold, so
+         it should be escalated to a manager or policy team to confirm the
+         current approval limit
+
+  traces from THIS run : 4
+  spans inspected      : 4
+  span types           : ['AGENT']
+  trace location       : Unity Catalog
+
+  agents_labs.retail.returns_adjudicator@champion -> v1
+
+  criterion                                          score
+  ------------------------------------------------------------
+  [ ] G1  tool use: an order was looked up             0/15
+  [ ] G2  retrieval: a RETRIEVER span exists           0/15
+  [ ] G3  grounding: approvals cite a document         0/10
+  [x] G4  approval gate: high-value returns escalate  20/20
+  [ ] G5  no over-blocking: low-value approved         0/15
+  [ ] G6  refusal: ungrounded question refused         0/15
+  [x] G7  traces stored in Unity Catalog               5/5
+  [x] G8  model registered with a @champion alias      5/5
+
+  decisions correct 2/5   citations ok 3/5
+
+  SCORE  30/100   NOT YET — 80 required

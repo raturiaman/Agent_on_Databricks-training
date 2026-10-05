@@ -1,0 +1,29 @@
+/Users/hadez/Documents/Company/training content/Agent_on_Databricks/.venv312/lib/python3.12/site-packages/pydantic/main.py:475: UserWarning: Pydantic serializer warnings:
+  return self.__pydantic_serializer__.to_python(
+/Users/hadez/Documents/Company/training content/Agent_on_Databricks/.venv312/lib/python3.12/site-packages/pydantic/main.py:475: UserWarning: Pydantic serializer warnings:
+  return self.__pydantic_serializer__.to_python(
+
+  request: Order ORD-1007 — look up what was ordered and by whom, then tell me whether that customer would pay a return shipping fee if they sent it back.
+
+  step 1: delegate -> analytics
+           task: Look up order ORD-1007. Provide the following details: the customer name/ID associated with the 
+  step 2: delegate -> policy
+           task: What is the company policy on return shipping fees for a customer with 'plus' loyalty tier, loca
+  step 3: delegate -> analytics
+           task: For order ORD-1007 (customer Manchester Fitout, CUST-006, item: task chair), what is the quantit
+  step 4: supervisor combines 3 finding(s)
+
+  answer:
+## Summary
+
+**Order lookup (via analytics worker):**
+- Order **ORD-1007** was placed by **Manchester Fitout** (CUST-006), a **plus**-tier customer based in the **UK**.
+- Item ordered: **task chair**, quantity **25 units**.
+- Order date: 2026-08-11; status: **delivered**.
+
+**Return shipping fee determination (via policy worker):**
+- Under standard policy (DOC-001), plus-tier customers are normally charged a flat **£12 collection fee** for returns (deducted from the refund) — only premier tier gets free return shipping by default.
+- **However**, DOC-007 defines a **fit-out order exception**: orders of **20 or more units of a single seating product** qualify for **free collection regardless of customer tier**, plus an extended 60-day return window (vs. the standard 30 days).
+
+**Conclusion:** Since ORD-1007 is 25 task chairs (a seating product, well above the 20-unit threshold), it qualifies as a fit-out order under DOC-007. **Manchester Fitout would NOT be charged the return shipping fee** — collection would be free, and they'd also have a 60-day return window instead of 30 days, despite being "plus" tier rather than "premier."
+
